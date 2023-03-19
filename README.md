@@ -1,11 +1,10 @@
 ## Quick overview
 `HammerPost` helps you to run the `HammerDB` workload against the PostgreSQL instance with different parameter sets. While running these tests, `HammerPostAgent` will collect the instance metrics like `CPU`, `Memory` and `IOstat`.
 
-
-
 ## Quick Setup
-
-### HammerDB client
+By using below steps, we are going to install the `HammerDB` and `hammerpost` on a rocky-linux machine.
+This machine is going to serve as our client machine, from where we run the `HammerDB` workloads.
+Make sure you have enough resources on this machine, to put enough load on the db server.
 
 1. Dowload HammerDB
 ```
@@ -13,13 +12,11 @@ wget https://github.com/TPC-Council/HammerDB/releases/download/v4.7/HammerDB-4.7
 ```
 
 Please note that, if you are using a different linux flavour then you have to download specific version of HammerDB from below url.
-
 ```
 https://www.hammerdb.com/download.html
 ```
 
 2. Unzip HammerDB-4.7-RHEL8.tar.gz file
-
 ```
 $ tar -zxvf HammerDB-4.7-RHEL8.tar.gz 
 ```
@@ -43,13 +40,18 @@ Ensure that PostgreSQL client libraries are installed and the location in the LD
 Checking database library for MariaDB
 ```
 
-5. Sees, this machine is not having the PostgreSQL libraries. So install them.
+5. Seems, this machine is missing required postgresql libraries. Install below libraries
 ```
 # yum update -y
 # yum install -y libpq.x86_64 postgresql-pltcl.x86_64
 ```
 
-6. Do `librarycheck` again, and it should print below `Success` message
+6. Install golang
+```
+# yum install -y golang
+```
+
+7. do `librarycheck` again, and it should print below `Success` message
 ```
 hammerdb>librarycheck
 Checking database library for PostgreSQL
@@ -58,12 +60,20 @@ Success ... loaded library Pgtcl for PostgreSQL
 
     This tool supports mysql database as well, if you are planning to run mysql benchmarks, then install mysql related libraries.
     
-7. Download `hammerpost` into `HammerDB-4.7`
+8. Download `hammerpost` and build
 ```
+$ git clone https://github.com/dineshkumar02/hammerpost.git
+$ cd hammerpost
+$ go get
+$ make
+```
+
+9. Move `hammerpost` binary to `HammerDB-4.7`
+```
+$ cp hammerpost ~/HammerDB-4.7
 ```
 
 
-### PostgreSQL server
 
 
 
