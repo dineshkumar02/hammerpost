@@ -1,0 +1,5 @@
+{
+	"shared_buffers": ["126MB", "256MB", "512MB", "1GB"],
+	"work_mem": ["1MB", "2MB"],
+	"wal_buffers": ["4MB", "8MB", "24MB"]
+}
