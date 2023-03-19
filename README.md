@@ -68,11 +68,19 @@ $ go get
 $ make
 ```
 
-9. Move `hammerpost` binary to `HammerDB-4.7`
+9. Copy `hammerpost` binary to `HammerDB-4.7`
 ```
 $ cp hammerpost ~/HammerDB-4.7
 ```
 
+10. Copy `hammer-templates` folder to `HammerDB-4.7`
+```
+$ cp -R hammer-templates/ ~/HammerDB-4.7/
+```
+
+## Initialize hammerdb data from hammerpost
+
+1. 
 
 
 

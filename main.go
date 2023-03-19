@@ -30,7 +30,7 @@ type CliArgs struct {
 	Name         string `arg:"--name" help:"Name of the benchmark"`
 	PgDSN        string `arg:"--pgdsn,env" help:"postgresql superuser connection string" default:"postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"`
 	MySqlDSN     string `arg:"--mysql-dsn,env" help:"mysql superuser connection string"`
-	DbController string `arg:"--db-controller,env" help:"db controller service host and port" default:"localhost:8080"`
+	DbController string `arg:"--hammerpost-agent,env" help:"hammerpost agent service host and port" default:"localhost:8080"`
 	ParamFile    string `arg:"--param-file" help:"Path to the parameters file"`
 	// StopCmd          string `arg:"--stop-cmd" help:"Command to stop the database pg_ctlcluster 14 main stop"`
 	// StartCmd         string `arg:"--start-cmd" help:"Command to start the database pg_ctlcluster 14 main start"`
