@@ -5,6 +5,65 @@
 
 ## Quick Setup
 
+### HammerDB client
+
+1. Dowload HammerDB
+```
+wget https://github.com/TPC-Council/HammerDB/releases/download/v4.7/HammerDB-4.7-RHEL8.tar.gz
+```
+
+Please note that, if you are using a different linux flavour then you have to download specific version of HammerDB from below url.
+
+```
+https://www.hammerdb.com/download.html
+```
+
+2. Unzip HammerDB-4.7-RHEL8.tar.gz file
+
+```
+$ tar -zxvf HammerDB-4.7-RHEL8.tar.gz 
+```
+
+3. Change directory to HammerDB-4.7
+```
+$ cd HammerDB-4.7
+```
+
+4. Check the required libraries installed or not
+```
+[HammerDB-4.7]$ ./hammerdbcli
+HammerDB CLI v4.7
+Copyright (C) 2003-2023 Steve Shaw
+Type "help" for a list of commands
+Initialized new SQLite on-disk database /tmp/hammer.DB
+
+hammerdb>librarycheck
+Error: failed to load Pgtcl - couldn't load file "/home/hammer/HammerDB-4.7/lib/pgtcl2.1.1/libpgtcl2.1.1.so": libpq.so.5: cannot open shared object file: No such file or directory
+Ensure that PostgreSQL client libraries are installed and the location in the LD_LIBRARY_PATH environment variable
+Checking database library for MariaDB
+```
+
+5. Sees, this machine is not having the PostgreSQL libraries. So install them.
+```
+# yum update -y
+# yum install -y libpq.x86_64 postgresql-pltcl.x86_64
+```
+
+6. Do `librarycheck` again, and it should print below `Success` message
+```
+hammerdb>librarycheck
+Checking database library for PostgreSQL
+Success ... loaded library Pgtcl for PostgreSQL
+```
+
+    This tool supports mysql database as well, if you are planning to run mysql benchmarks, then install mysql related libraries.
+    
+7. Download `hammerpost` into `HammerDB-4.7`
+```
+```
+
+
+### PostgreSQL server
 
 
 
