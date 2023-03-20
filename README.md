@@ -87,7 +87,7 @@ before performing below steps.
 ```
 /hammerpost --init --name test-bench-1 --pgdsn "postgres://postgres:postgres@143.110.189.248:5432/postgres" --users 4 --warehouses 10 --hammerpost-agent 143.110.189.248:8989
 
-╔ Tessell HammerDB - v0.1.0 ══════════════════════╗
+╔ hammerpost - v0.1.0 ════════════════════════════╗
 ║                                                 ║
 ║                            OS linux             ║
 ║           Platform rocky-9.1                    ║
@@ -140,7 +140,7 @@ If you put more possible values, and more parameters it will run more `HammerDB`
 ```
 $ ./hammerpost --run --name test-bench-1 --pgdsn "postgres://postgres:postgres@143.110.189.248:5432/postgres" --users 4 --warehouses 10 --hammerpost-agent 143.110.189.248:8989 --param-file ~/hammerpost/params.json  --logfile test-bench1.log
 
-╔ Tessell HammerDB - v0.1.0 ══════════════════════╗
+╔ hammerpost - v0.1.0 ════════════════════════════╗
 ║                                                 ║
 ║                            OS linux             ║
 ║           Platform rocky-9.1                    ║
