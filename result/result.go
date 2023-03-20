@@ -36,19 +36,18 @@ func ShowTestStats(id int, _type string) {
 	table := util.GetNewTable()
 
 	if _type == "avg" {
-		table.SetHeader([]string{"AvgCPU", "AvgMem", "AvgIOPS", "AvgRPerSec", "AvgRMbps", "AvgWPerSec", "AvgWMbps", "AvgUtil"})
+		table.SetHeader([]string{"AvgCPU", "AvgMem", "AvgRPerSec", "AvgRMbps", "AvgWPerSec", "AvgWMbps", "AvgUtil"})
 	}
 	if _type == "max" {
-		table.SetHeader([]string{"MaxCPU", "MaxMem", "MaxIOPS", "MaxRPerSec", "MaxRMbps", "MaxWPerSec", "MaxWMbps", "MaxUtil"})
+		table.SetHeader([]string{"MaxCPU", "MaxMem", "MaxRPerSec", "MaxRMbps", "MaxWPerSec", "MaxWMbps", "MaxUtil"})
 	}
 	if _type == "min" {
-		table.SetHeader([]string{"MinCPU", "MinMem", "MinIOPS", "MinRPerSec", "MinRMbps", "MinWPerSec", "MinWMbps", "MinUtil"})
+		table.SetHeader([]string{"MinCPU", "MinMem", "MinRPerSec", "MinRMbps", "MinWPerSec", "MinWMbps", "MinUtil"})
 	}
 
 	table.SetRowLine(true)
 
 	table.SetHeaderColor(
-		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
@@ -68,7 +67,6 @@ func ShowTestStats(id int, _type string) {
 		table.Append([]string{
 			fmt.Sprintf("%.2f", res.AvgCpu),
 			fmt.Sprintf("%.2f", res.AvgMem),
-			fmt.Sprintf("%.2f", res.AvgIops),
 			fmt.Sprintf("%.2f", res.AvgReads),
 			fmt.Sprintf("%.2f", res.AvgReadMbps),
 			fmt.Sprintf("%.2f", res.AvgWrites),
@@ -81,7 +79,6 @@ func ShowTestStats(id int, _type string) {
 		table.Append([]string{
 			fmt.Sprintf("%.2f", res.MaxCpu),
 			fmt.Sprintf("%.2f", res.MaxMem),
-			fmt.Sprintf("%.2f", res.MaxIops),
 			fmt.Sprintf("%.2f", res.MaxReads),
 			fmt.Sprintf("%.2f", res.MaxReadMbps),
 			fmt.Sprintf("%.2f", res.MaxWrites),
@@ -94,7 +91,6 @@ func ShowTestStats(id int, _type string) {
 		table.Append([]string{
 			fmt.Sprintf("%.2f", res.MinCpu),
 			fmt.Sprintf("%.2f", res.MinMem),
-			fmt.Sprintf("%.2f", res.MinIops),
 			fmt.Sprintf("%.2f", res.MinReads),
 			fmt.Sprintf("%.2f", res.MinReadMbps),
 			fmt.Sprintf("%.2f", res.MinWrites),
@@ -108,7 +104,7 @@ func ShowTestStats(id int, _type string) {
 
 func ShowResult(id int, limit int) {
 	table := util.GetNewTable()
-	table.SetHeader([]string{"Test ID", "Start", "End", "Duration", "Parameters", "Status", "Max IOPS", "AVG Load", "AVG CPU", "AVG Memory", "NOPM", "TPM"})
+	table.SetHeader([]string{"Test ID", "Start", "End", "Duration", "Parameters", "Status", "AVG Load", "AVG CPU", "AVG Memory", "NOPM", "TPM"})
 	table.SetRowLine(true)
 
 	table.SetHeaderColor(
@@ -118,7 +114,6 @@ func ShowResult(id int, limit int) {
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiGreenColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiCyanColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiMagentaColor},
@@ -161,7 +156,7 @@ func ShowResult(id int, limit int) {
 			status = "Unknown"
 		}
 
-		row := []string{strconv.Itoa(r.TestId), r.Start, r.End, duration, r.Parameters, status, strconv.Itoa(int(r.MaxIops)), strconv.Itoa(int(r.AvgLoad)), strconv.Itoa(int(r.AvgCpu)) + " %", strconv.Itoa(int(r.AvgMem)) + " %", strconv.Itoa(r.Nopm), strconv.Itoa(r.Tpm)}
+		row := []string{strconv.Itoa(r.TestId), r.Start, r.End, duration, r.Parameters, status, strconv.Itoa(int(r.AvgLoad)), strconv.Itoa(int(r.AvgCpu)) + " %", strconv.Itoa(int(r.AvgMem)) + " %", strconv.Itoa(r.Nopm), strconv.Itoa(r.Tpm)}
 
 		if status == "Success" {
 			table.Rich(row, []tablewriter.Colors{{}, {}, {}, {}, {}, {tablewriter.Bold, tablewriter.FgHiGreenColor}, {}, {}})
@@ -224,12 +219,11 @@ func ShowTestDetails(testId int, limit int) {
 
 func ShowBenchMetric(benchID int, limit int) {
 	table := util.GetNewTable()
-	table.SetHeader([]string{"Test ID", "Cpu Usage", "Memory Usage", "Disk IOPS"})
+	table.SetHeader([]string{"Test ID", "Cpu Usage", "Memory Usage"})
 	table.SetCaption(true, "Benchmark Metrics")
 	table.SetRowLine(true)
 
 	table.SetHeaderColor(
-		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
@@ -242,7 +236,7 @@ func ShowBenchMetric(benchID int, limit int) {
 	}
 
 	for _, r := range res {
-		row := []string{strconv.Itoa(r.TestId), fmt.Sprintf("%.2f", r.CpuUsage), fmt.Sprintf("%.2f", r.MemoryUsage), fmt.Sprintf("%.2f", r.DiskTps)}
+		row := []string{strconv.Itoa(r.TestId), fmt.Sprintf("%.2f", r.CpuUsage), fmt.Sprintf("%.2f", r.MemoryUsage)}
 		table.Append(row)
 	}
 
@@ -251,12 +245,11 @@ func ShowBenchMetric(benchID int, limit int) {
 
 func ShowTestMetric(testId int, limit int) {
 	table := util.GetNewTable()
-	table.SetHeader([]string{"Cpu Usage", "Memory Usage", "Disk Usage", "Time"})
+	table.SetHeader([]string{"Cpu Usage", "Memory Usage", "Time"})
 	table.SetCaption(true, "Test Metrics")
 	table.SetRowLine(true)
 
 	table.SetHeaderColor(
-		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
 		tablewriter.Colors{tablewriter.Bold},
@@ -269,7 +262,7 @@ func ShowTestMetric(testId int, limit int) {
 	}
 
 	for _, r := range res {
-		row := []string{fmt.Sprintf("%.2f", r.CpuUsage), fmt.Sprintf("%.2f", r.MemoryUsage), fmt.Sprintf("%.2f", r.DiskTps), fmt.Sprintf("%v", time.Unix(int64(r.RecTime), 0))}
+		row := []string{fmt.Sprintf("%.2f", r.CpuUsage), fmt.Sprintf("%.2f", r.MemoryUsage), fmt.Sprintf("%v", time.Unix(int64(r.RecTime), 0))}
 		table.Append(row)
 	}
 
