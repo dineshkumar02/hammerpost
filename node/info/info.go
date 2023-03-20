@@ -49,7 +49,9 @@ func PrintBanner(version string) {
 		fmt.Printf("error getting node info: %s\n", err.Error())
 		return
 	}
-	Box.Println(fmt.Sprintf("Tessell HammerDB - v%s", version),
-		msg,
+	Box.Println(fmt.Sprintf("hammerpost - v%s", version),
+
+		// Add new lines to the box to fix the alignment issue
+		""+"\n"+msg,
 	)
 }
