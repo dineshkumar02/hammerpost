@@ -1,6 +1,15 @@
 ## Quick overview
 `HammerPost` helps you to run the `HammerDB` workload against the PostgreSQL instance with different parameter sets. While running these tests, `HammerPostAgent` will collect the instance metrics like `CPU`, `Memory` and `IOstat`.
 
+## Quick Demo
+In this demo, we are running total 4 test cases, by cooling down(sleep) until the load average on the target postgresql instance come to 1.
+
+[![asciicast](https://asciinema.org/a/FXcUEGuGFVbChKdFIJ6XlBb56.svg)](https://asciinema.org/a/FXcUEGuGFVbChKdFIJ6XlBb56)
+
+
+## Results
+[![asciicast](https://asciinema.org/a/aBnRuoGKnyFD7iwZStGDeP8Nl.svg)](https://asciinema.org/a/aBnRuoGKnyFD7iwZStGDeP8Nl)
+
 ## Quick Setup
 By using below steps, we are going to install the `HammerDB` and `hammerpost` on a rocky-linux machine.
 This machine is going to serve as our client machine, from where we run the `HammerDB` workloads.
