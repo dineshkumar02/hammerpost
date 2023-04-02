@@ -1,5 +1,5 @@
 ## Quick overview
-HammerPost assists in running the HammerDB workload against a PostgreSQL instance using different parameter sets. While running these tests, HammerPostAgent collects instance metrics such as CPU, Memory, and IOstat.
+HammerPost assists in running the HammerDB workload against a PostgreSQL instance using different parameter sets. While running these tests, HammerPostAgent collects instance metrics such as CPU, Memory.
 
 ## Quick Demo
 This demo runs a total of four test cases. HammerPost cool down (sleep) until the load average on the target PostgreSQL instance reaches 1.
@@ -12,6 +12,8 @@ This demo runs a total of four test cases. HammerPost cool down (sleep) until th
 
 ## Quick Setup
 
+        This tool requires a minimum version of Go 1.18 or higher to function.
+        Please build the binaries using the supported Go version.
 
 ### Docker setup
 
@@ -107,7 +109,7 @@ Success ... loaded library Pgtcl for PostgreSQL
 
     This tool supports mysql database as well, if you are planning to run mysql benchmarks, then install mysql related libraries.
 
-7. Install golang
+7. Install golang version 1.18
 ```
 # yum install -y golang
 ```
@@ -133,11 +135,12 @@ $ cp -R hammer-templates/ ~/HammerDB-4.7/
 ## Initialize hammerdb data from hammerpost
 
 Please make sure, you started the hammerpost-agent serivce on PostgreSQL node,
-before performing below steps.
+before performing below steps. Please see hammerpost-agent setup details [here](https://github.com/dineshkumar02/hammerpost-agent)
+
 
 1. Initialize hammerdb schema by using below command.
 ```
-/hammerpost --init --name test-bench-1 --pgdsn "postgres://postgres:postgres@143.110.189.248:5432/postgres" --users 4 --warehouses 10 --hammerpost-agent 143.110.189.248:8989
+./hammerpost --init --name test-bench-1 --pgdsn "postgres://postgres:postgres@143.110.189.248:5432/postgres" --users 4 --warehouses 10 --hammerpost-agent 143.110.189.248:8989
 
 ╔ hammerpost - v0.1.0 ════════════════════════════╗
 ║                                                 ║

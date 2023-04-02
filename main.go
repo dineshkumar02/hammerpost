@@ -68,8 +68,8 @@ type CliArgs struct {
 func pingDbController() {
 	_, err := sling.New().Get(api.DbController + "/ping").ReceiveSuccess(nil)
 	if err != nil {
-		color.HiRed(fmt.Sprintln("unable to connect to db controller: ", err.Error()))
-		log.Fatalf("unable to connect to db controller: %s", err.Error())
+		color.HiRed(fmt.Sprintln("unable to connect to hammerpost-agent: ", err.Error()))
+		log.Fatalf("unable to connect to hammerpost-agent: %s", err.Error())
 	}
 }
 
