@@ -1,5 +1,5 @@
 ## Quick overview
-HammerPost assists in running the HammerDB workload against a PostgreSQL instance using different parameter sets. While running these tests, HammerPostAgent collects instance metrics such as CPU, Memory.
+HammerPost assists in running the HammerDB workload against a PostgreSQL/MySQL instance using different parameter sets. While running these tests, HammerPostAgent collects instance metrics such as CPU, Memory.
 
 ## Quick Demo
 This demo runs a total of four test cases. HammerPost cool down (sleep) until the load average on the target PostgreSQL instance reaches 1.
@@ -52,6 +52,10 @@ This demo runs a total of four test cases. HammerPost cool down (sleep) until th
         CONTAINER ID   IMAGE                COMMAND   CREATED          STATUS          PORTS     NAMES
         64309ab0cec9   webysther/hammerdb   "bash"    36 seconds ago   Up 36 seconds             cool_jang
         ➜ ✗ docker cp ./hammerpost 64309ab0cec9:/hammerdb/
+
+6. Copy `hammer-templates` folder into container
+
+         ➜ ✗ docker cp ./hammer-templates 64309ab0cec9:/hammerdb/
 
 ### Manual setup
 
@@ -310,6 +314,78 @@ Benchmark Result - Row Count: 4
 |       1 |    100.00 |        92.19 |
 +---------+-----------+--------------+
 Benchmark Metrics
+```
+
+4. A single benchmark will have a set of tests, where each test belong to a specific parameter profile.
+Get test details using `--test-details <test-id>` argument.
+
+```
+[root@rockylinux-s-1vcpu-1gb-blr1-01 HammerDB-4.7]# ./hammerpost --test-details 1
++----------------------+----------------------+----------+----------------------+--------+-------+
+|        START         |         END          | DURATION |      PARAMETERS      | OUTPUT | ERROR |
++----------------------+----------------------+----------+----------------------+--------+-------+
+| 2023-04-02T12:27:08Z | 2023-04-02T12:28:14Z | 1m6s     | shared_buffers:126MB |        |       |
+|                      |                      |          | work_mem:2MB         |        |       |
+|                      |                      |          | wal_buffers:24MB     |        |       |
++----------------------+----------------------+----------+----------------------+--------+-------+
+Test Details
+```
+
+
+5. Get specific test metrics using `--test-metrics <test-id>` arguments
+```
+[root@rockylinux-s-1vcpu-1gb-blr1-01 HammerDB-4.7]# ./hammerpost --test-metrics 1
++-----------+--------------+-------------------------------+
+| CPU USAGE | MEMORY USAGE |             TIME              |
++-----------+--------------+-------------------------------+
+|     55.00 |        84.34 | 2023-04-02 12:27:09 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.80 | 2023-04-02 12:27:11 +0000 UTC |
++-----------+--------------+-------------------------------+
+|     54.08 |        92.76 | 2023-04-02 12:27:17 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.83 | 2023-04-02 12:27:19 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.06 | 2023-04-02 12:27:21 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.55 | 2023-04-02 12:27:23 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.46 | 2023-04-02 12:27:25 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        93.17 | 2023-04-02 12:27:27 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.50 | 2023-04-02 12:27:29 +0000 UTC |
++-----------+--------------+-------------------------------+
+|    100.00 |        92.66 | 2023-04-02 12:27:31 +0000 UTC |
++-----------+--------------+-------------------------------+
+Test Metrics
+```
+
+6. Get avg summarized stats for each test using `--test-stats <test-id>` arguments
+```
+[root@rockylinux-s-1vcpu-1gb-blr1-01 HammerDB-4.7]# ./hammerpost --test-stats 1
++--------+--------+------------+----------+------------+----------+---------+
+| AVGCPU | AVGMEM | AVGRPERSEC | AVGRMBPS | AVGWPERSEC | AVGWMBPS | AVGUTIL |
++--------+--------+------------+----------+------------+----------+---------+
+|  93.94 |  92.57 |       0.00 |     0.00 |       0.00 |     0.00 |    0.00 |
++--------+--------+------------+----------+------------+----------+---------+
+```
+
+7. Get max/min summarized stats for each test using `--test-stats <test-id> --stat-type max/min` arguments
+```
+[root@rockylinux-s-1vcpu-1gb-blr1-01 HammerDB-4.7]# ./hammerpost --test-stats 1 --stat-type max
++--------+--------+------------+----------+------------+----------+---------+
+| MAXCPU | MAXMEM | MAXRPERSEC | MAXRMBPS | MAXWPERSEC | MAXWMBPS | MAXUTIL |
++--------+--------+------------+----------+------------+----------+---------+
+| 100.00 |  93.75 |       0.00 |     0.00 |       0.00 |     0.00 |    0.00 |
++--------+--------+------------+----------+------------+----------+---------+
+
+[root@rockylinux-s-1vcpu-1gb-blr1-01 HammerDB-4.7]# ./hammerpost --test-stats 1 --stat-type min
++--------+--------+------------+----------+------------+----------+---------+
+| MINCPU | MINMEM | MINRPERSEC | MINRMBPS | MINWPERSEC | MINWMBPS | MINUTIL |
++--------+--------+------------+----------+------------+----------+---------+
+|   3.03 |  84.34 |       0.00 |     0.00 |       0.00 |     0.00 |    0.00 |
++--------+--------+------------+----------+------------+----------+---------+
 ```
 
 ## About
