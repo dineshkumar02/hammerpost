@@ -12,6 +12,47 @@ This demo runs a total of four test cases. HammerPost cool down (sleep) until th
 
 ## Quick Setup
 
+
+### Docker setup
+
+1. Download `hammerpost` and build from your local machine
+
+        $ git clone https://github.com/dineshkumar02/hammerpost.git
+        $ cd hammerpost
+        $ go get
+        $ make
+
+2. Pull docker image
+
+        ➜  ~ docker pull webysther/hammerdb
+
+3. Connect to docker image
+
+        ➜  ~ docker run -it webysther/hammerdb bash
+
+4. Do `librarycheck`
+
+        root@ffb6fc939a02:/hammerdb# ./hammerdbcli
+        HammerDB CLI v3.3
+        Copyright (C) 2003-2019 Steve Shaw
+        hammerdb>librarycheck
+        Ensure that Db2 client libraries are installed and the location in the LD_LIBRARY_PATH environment variable
+        Checking database library for MySQL
+        Success ... loaded library mysqltcl for MySQL
+        Checking database library for PostgreSQL
+        Success ... loaded library Pgtcl for PostgreSQL
+        Checking database library for Redis
+        Success ... loaded library redis for Redis
+
+5. Copy `hammerpost` into container
+
+        ➜ ✗ docker ps
+        CONTAINER ID   IMAGE                COMMAND   CREATED          STATUS          PORTS     NAMES
+        64309ab0cec9   webysther/hammerdb   "bash"    36 seconds ago   Up 36 seconds             cool_jang
+        ➜ ✗ docker cp ./hammerpost 64309ab0cec9:/hammerdb/
+
+### Manual setup
+
 To install `HammerDB` and `hammerpost` on a Rocky Linux machine, follow these steps:
     
     . Set up the machine as the client machine from which to run `HammerDB` workloads.
@@ -57,12 +98,7 @@ Checking database library for MariaDB
 # yum install -y libpq.x86_64 postgresql-pltcl.x86_64
 ```
 
-6. Install golang
-```
-# yum install -y golang
-```
-
-7. do `librarycheck` again, and it should print below `Success` message
+6. do `librarycheck` again, and it should print below `Success` message
 ```
 hammerdb>librarycheck
 Checking database library for PostgreSQL
@@ -70,7 +106,12 @@ Success ... loaded library Pgtcl for PostgreSQL
 ```
 
     This tool supports mysql database as well, if you are planning to run mysql benchmarks, then install mysql related libraries.
-    
+
+7. Install golang
+```
+# yum install -y golang
+```
+
 8. Download `hammerpost` and build
 ```
 $ git clone https://github.com/dineshkumar02/hammerpost.git
@@ -195,6 +236,7 @@ Parameter test cases  12
 ```
 
 This `HammerPost` will take care of applying these parameters and sending a restart signal to the remote PostgreSQL instance.
+`HammerPost` will send apply parameter, restart requests to `HammerPostAgent` which is running on the database instance.
 
 
 
@@ -296,3 +338,34 @@ While doing these benchmarks, it is important to monitor server metrics like CPU
 By comparing the server metrics and benchmark results, the final decision on the parameter profile can be made.
 
 `HammerPost` simplifies this process by taking user-defined parameters, applying them to the database, and collecting metrics while the benchmark is running.
+
+## Usage
+| Option             | Usage                                                                                                            |
+|--------------------|------------------------------------------------------------------------------------------------------------------|
+| --only-hammer      | Run only HammerDB without any hammerpost agent. This option helps to run HammerDB in cloud specific environments |
+| --name             | Name of the benchmark                                                                                            |
+| --pgdsn            | PostgreSQL superuser connection string                                                                           |
+| --mysql-dsn        | MySQL superuser connection string                                                                                |
+| --hammerpost-agent | Hammerpost Agent service url                                                                                     |
+| --users            | Number of virtual users for the HammerDB workload                                                                |
+| --warehouses       | Number of warehouses to create for the HammerDB workload                                                         |
+| --itr              | Number of iterations for a single virtual user                                                                   |
+| --duration         | Duration of hammerdb to run in minutes                                                                           |
+| --rampup           | Duration of hammerdb rampup in minutes                                                                           |
+| --init             | Initialize the database with HammerDB catalog tables                                                             |
+| --run              | Run HammerDB workload                                                                                            |
+| --allwarehouses    | Run HammerDB with all warehouses                                                                                 |
+| --dbtype           | Database type - default postgres                                                                                 |
+| --summary          | Show summary of benchmarks                                                                                       |
+| --reset            | Reset the collected stats                                                                                        |
+| --result           | Print the results of the given benchmark id                                                                      |
+| --limit            | Limit the rows from result                                                                                       |
+| --test-details     | Print the details of the given test id, output and error                                                         |
+| --bench-metrics    | Print the metrics of the given benchmark id                                                                      |
+| --test-metrics     | Print the metrics of the specific test id                                                                        |
+| --cooldown-cpu     | Don't start the HammerDB workload until the server's load avg comes to this value                                |
+| --debug            | Enable debug mode                                                                                                |
+| --logfile          | Logfile path for this run                                                                                        |
+| --frequency        | Frequency of the metrics collection in seconds                                                                   |
+| --test-stats       | Print the stats of the database                                                                                  |
+| --stat-type        | Type of the stats to print (ex: avg, max)                                                                        |
