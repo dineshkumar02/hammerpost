@@ -26,6 +26,8 @@ This demo runs a total of four test cases. HammerPost cool down (sleep) until th
 
 2. Pull docker image
 
+        ➜  ~ docker pull tpcorg/hammerdb (Official TPC-Council HammerDB)
+        OR
         ➜  ~ docker pull webysther/hammerdb
 
 3. Connect to docker image
